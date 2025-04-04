@@ -1,52 +1,29 @@
 package hexlet.code.schemas;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class StringSchema extends BaseSchema<String> {
     private boolean isRequired = false;
-    private Integer minLength = null;
-    private final List<String> mustContain = new ArrayList<>();
 
     public StringSchema required() {
-        this.isRequired = true;
+        isRequired = true;
+        addCheck(value -> value != null && value instanceof String && !((String) value).isEmpty());
         return this;
     }
 
     public StringSchema minLength(int length) {
-        this.minLength = length;
+        addCheck(value -> value != null && value.length() >= length);
         return this;
     }
 
     public StringSchema contains(String substring) {
-        mustContain.add(substring);
+        addCheck(value -> value != null && value.contains(substring));
         return this;
     }
 
     @Override
-    public boolean isValid(String value) {
-        if (value == null) {
-            return !isRequired;
+    public boolean isValid(Object value) {
+        if (!isRequired && value == null) {
+            return true;
         }
-
-        if (!(value instanceof String)) {
-            return false;
-        }
-
-        if (isRequired && value.isEmpty()) {
-            return false;
-        }
-
-        if (minLength != null && value.length() < minLength) {
-            return false;
-        }
-
-        for (String substring : mustContain) {
-            if (!value.contains(substring)) {
-                return false;
-            }
-        }
-
-        return true;
+        return super.isValid(value);
     }
 }

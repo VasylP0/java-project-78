@@ -1,6 +1,7 @@
 plugins {
     java
-    id("org.sonarqube") version "4.4.1.3373" // ← Add this line
+    id("org.sonarqube") version "4.4.1.3373"
+    jacoco
 }
 
 repositories {
@@ -24,15 +25,29 @@ java {
     }
 }
 
-tasks.named<Test>("test") {
+tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport) // Run coverage report after tests
 }
 
-// SonarCloud configuration ↓↓↓ Replace these values with your actual ones
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)  // 👈 SonarCloud needs XML
+        html.required.set(false)
+        csv.required.set(false)
+    }
+}
+
 sonar {
     properties {
         property("sonar.projectKey", "VasylP0_java-project-78")
         property("sonar.organization", "vasylp0")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }

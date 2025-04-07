@@ -1,11 +1,10 @@
 package hexlet.code.schemas;
 
 public class StringSchema extends BaseSchema<String> {
-    private boolean isRequired = false;
 
     public StringSchema required() {
-        isRequired = true;
-        addCheck(value -> value != null && value instanceof String && !((String) value).isEmpty());
+        setRequired(true);
+        addCheck(value -> value != null && !value.isEmpty());
         return this;
     }
 
@@ -20,10 +19,8 @@ public class StringSchema extends BaseSchema<String> {
     }
 
     @Override
-    public boolean isValid(Object value) {
-        if (!isRequired && value == null) {
-            return true;
-        }
-        return super.isValid(value);
+    protected boolean customPreValidation(String value) {
+        // If required, value must be a non-empty string
+        return !isRequired() || (value != null && !value.isEmpty());
     }
 }

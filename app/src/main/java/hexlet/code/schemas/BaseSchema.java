@@ -6,12 +6,18 @@ import java.util.function.Predicate;
 
 public class BaseSchema<T> {
     private final List<Predicate<T>> checks = new ArrayList<>();
+    private boolean isRequired = false;
 
     public boolean isValid(Object value) {
+        // If not required and value is null — consider it valid
+        if (!isRequired && value == null) {
+            return true;
+        }
+
         try {
+            @SuppressWarnings("unchecked")
             T castedValue = (T) value;
 
-            // Allow schema-specific early filtering
             if (!customPreValidation(castedValue)) {
                 return false;
             }
@@ -21,6 +27,7 @@ public class BaseSchema<T> {
                     return false;
                 }
             }
+
             return true;
         } catch (ClassCastException e) {
             return false;
@@ -28,10 +35,19 @@ public class BaseSchema<T> {
     }
 
     protected boolean customPreValidation(T value) {
-        return true; // By default, no extra logic
+        return true;
     }
 
-    protected void addCheck(Predicate<T> predicate) {
+    protected BaseSchema<T> addCheck(Predicate<T> predicate) {
         checks.add(predicate);
+        return this;
+    }
+
+    protected void setRequired(boolean required) {
+        this.isRequired = required;
+    }
+
+    protected boolean isRequired() {
+        return isRequired;
     }
 }

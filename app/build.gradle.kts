@@ -1,5 +1,6 @@
 plugins {
-    application
+    java
+    id("org.sonarqube") version "4.4.1.3373" // ← Add this line
 }
 
 repositories {
@@ -23,11 +24,15 @@ java {
     }
 }
 
-application {
-    // Можно пока закомментировать или указать реальный main-класс позже
-    // mainClass = "hexlet.code.App"
-}
-
 tasks.named<Test>("test") {
     useJUnitPlatform()
+}
+
+// SonarCloud configuration ↓↓↓ Replace these values with your actual ones
+sonar {
+    properties {
+        property("sonar.projectKey", "VasylP0_java-project-78")
+        property("sonar.organization", "vasylp0")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }

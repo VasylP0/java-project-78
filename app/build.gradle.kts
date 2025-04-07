@@ -4,6 +4,10 @@ plugins {
     jacoco
 }
 
+// ✅ Added group and version to fix Hexlet CI
+group = "hexlet.code"
+version = "1.0.0"
+
 repositories {
     mavenCentral()
 }

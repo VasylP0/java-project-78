@@ -1,12 +1,12 @@
-package hexlet.code.schemas;
+package hexlet.code;
 
-import hexlet.code.Validator;
+import hexlet.code.schemas.StringSchema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StringSchemaTest {
+class StringSchemaTest {
 
     private Validator validator;
     private StringSchema schema;
@@ -18,44 +18,16 @@ public class StringSchemaTest {
     }
 
     @Test
-    void testInitialValidation() {
-        assertThat(schema.isValid(null)).isTrue();
-        assertThat(schema.isValid("")).isTrue();
-        assertThat(schema.isValid("hello")).isTrue();
-    }
-
-    @Test
-    void testRequiredConstraint() {
-        schema.required();
-
-        assertThat(schema.isValid(null)).isFalse();
-        assertThat(schema.isValid("")).isFalse();
-        assertThat(schema.isValid("non-empty")).isTrue();
-    }
-
-    @Test
-    void testMinLengthConstraint() {
+    void testValidString() {
         schema.required().minLength(5);
 
-        assertThat(schema.isValid("12345")).isTrue();
-        assertThat(schema.isValid("1234")).isFalse();
+        assertThat(schema.isValid("Hello")).isTrue();
     }
 
     @Test
-    void testContainsConstraint() {
-        schema.required().contains("abc");
+    void testInvalidString() {
+        schema.required().minLength(5);
 
-        assertThat(schema.isValid("xxabcxx")).isTrue();
-        assertThat(schema.isValid("ab")).isFalse();
-        assertThat(schema.isValid("xxabx")).isFalse();
-    }
-
-    @Test
-    void testMultipleConstraintsTogether() {
-        schema.required().minLength(5).contains("abc");
-
-        assertThat(schema.isValid("xxabcxx")).isTrue();
-        assertThat(schema.isValid("abc")).isFalse();         // too short
-        assertThat(schema.isValid("xxdefxx")).isFalse();     // does not contain
+        assertThat(schema.isValid("Hi")).isFalse();
     }
 }

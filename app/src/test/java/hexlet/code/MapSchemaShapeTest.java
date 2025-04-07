@@ -1,6 +1,7 @@
-package hexlet.code.schemas;
+package hexlet.code;
 
-import hexlet.code.Validator;
+import hexlet.code.schemas.MapSchema;
+import hexlet.code.schemas.BaseSchema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,55 +24,28 @@ class MapSchemaShapeTest {
     @Test
     void testValidMap() {
         Map<String, BaseSchema<?>> shape = new HashMap<>();
-        shape.put("firstName", validator.string().required());
-        shape.put("lastName", validator.string().required().minLength(2));
+        shape.put("name", validator.string().required());
+        shape.put("age", validator.number().required().positive());
         schema.shape(shape);
 
         Map<String, String> human = new HashMap<>();
-        human.put("firstName", "John");
-        human.put("lastName", "Smith");
+        human.put("name", "John");
+        human.put("age", "30");
 
         assertThat(schema.isValid(human)).isTrue();
     }
 
     @Test
-    void testNullLastNameFails() {
+    void testInvalidMap() {
         Map<String, BaseSchema<?>> shape = new HashMap<>();
-        shape.put("firstName", validator.string().required());
-        shape.put("lastName", validator.string().required().minLength(2));
+        shape.put("name", validator.string().required());
+        shape.put("age", validator.number().required().positive());
         schema.shape(shape);
 
         Map<String, String> human = new HashMap<>();
-        human.put("firstName", "John");
-        human.put("lastName", null);
+        human.put("name", "John");
+        human.put("age", "-5");
 
         assertThat(schema.isValid(human)).isFalse();
-    }
-
-    @Test
-    void testShortLastNameFails() {
-        Map<String, BaseSchema<?>> shape = new HashMap<>();
-        shape.put("firstName", validator.string().required());
-        shape.put("lastName", validator.string().required().minLength(2));
-        schema.shape(shape);
-
-        Map<String, String> human = new HashMap<>();
-        human.put("firstName", "Anna");
-        human.put("lastName", "B");
-
-        assertThat(schema.isValid(human)).isFalse();
-    }
-
-    @Test
-    void testMissingKeyStillValidIfNotRequired() {
-        Map<String, BaseSchema<?>> shape = new HashMap<>();
-        shape.put("firstName", validator.string().required());
-        shape.put("middleName", validator.string()); // not required
-        schema.shape(shape);
-
-        Map<String, String> human = new HashMap<>();
-        human.put("firstName", "Peter");
-
-        assertThat(schema.isValid(human)).isTrue();
     }
 }

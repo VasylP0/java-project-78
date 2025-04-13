@@ -53,3 +53,4 @@ mapSchema.shape(shape);
 Map<String, Object> person = Map.of("name", "John", "age", 30);
 mapSchema.isValid(person); // true
 
+

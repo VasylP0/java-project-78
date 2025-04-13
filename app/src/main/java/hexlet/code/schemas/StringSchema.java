@@ -9,6 +9,8 @@ public class StringSchema extends BaseSchema<String> {
     }
 
     public StringSchema minLength(int length) {
+        // Remove any previous minLength check
+        removeCheckIf(predicate -> predicate.toString().contains("length() >= "));
         addCheck(value -> value != null && value.length() >= length);
         return this;
     }
@@ -20,7 +22,6 @@ public class StringSchema extends BaseSchema<String> {
 
     @Override
     protected boolean customPreValidation(String value) {
-        // If required, value must be a non-empty string
         return !isRequired() || (value != null && !value.isEmpty());
     }
 }

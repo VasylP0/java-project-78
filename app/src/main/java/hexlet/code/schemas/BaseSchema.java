@@ -9,7 +9,6 @@ public class BaseSchema<T> {
     private boolean isRequired = false;
 
     public boolean isValid(Object value) {
-        // If not required and value is null — consider it valid
         if (!isRequired && value == null) {
             return true;
         }
@@ -49,5 +48,10 @@ public class BaseSchema<T> {
 
     protected boolean isRequired() {
         return isRequired;
+    }
+
+    // ✨ NEW: Allows child schemas to remove conflicting checks
+    protected void removeCheckIf(Predicate<Predicate<T>> condition) {
+        checks.removeIf(condition);
     }
 }

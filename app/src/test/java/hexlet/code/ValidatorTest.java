@@ -17,5 +17,6 @@ class ValidatorTest {
         assertInstanceOf(NumberSchema.class, numberSchema);
     }
 
-    // Trigger GitHub sync: remove old test reference
+    // Trigger GitHub sync
+    // Confirm final GitHub sync
 }

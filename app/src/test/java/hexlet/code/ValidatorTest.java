@@ -16,7 +16,7 @@ class ValidatorTest {
         assertInstanceOf(StringSchema.class, stringSchema);
         assertInstanceOf(NumberSchema.class, numberSchema);
     }
-
+    // Confirmed: ghost test file is gone!
     // Trigger GitHub sync
     // Confirm final GitHub sync
 }

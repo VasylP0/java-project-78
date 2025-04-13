@@ -28,9 +28,9 @@ class MapSchemaShapeTest {
         shape.put("age", validator.number().required().positive());
         schema.shape(shape);
 
-        Map<String, String> human = new HashMap<>();
+        Map<String, Object> human = new HashMap<>();
         human.put("name", "John");
-        human.put("age", "30");
+        human.put("age", 30); // ✅ Correct type: Integer
 
         assertThat(schema.isValid(human)).isTrue();
     }
@@ -42,10 +42,38 @@ class MapSchemaShapeTest {
         shape.put("age", validator.number().required().positive());
         schema.shape(shape);
 
-        Map<String, String> human = new HashMap<>();
+        Map<String, Object> human = new HashMap<>();
         human.put("name", "John");
-        human.put("age", "-5");
+        human.put("age", -5); // ❌ Invalid: negative number
 
         assertThat(schema.isValid(human)).isFalse();
+    }
+
+    @Test
+    void testMissingRequiredField() {
+        Map<String, BaseSchema<?>> shape = new HashMap<>();
+        shape.put("name", validator.string().required());
+        shape.put("age", validator.number().required().positive());
+        schema.shape(shape);
+
+        Map<String, Object> human = new HashMap<>();
+        human.put("name", "John");
+        // age is missing
+
+        assertThat(schema.isValid(human)).isFalse();
+    }
+
+    @Test
+    void testOptionalField() {
+        Map<String, BaseSchema<?>> shape = new HashMap<>();
+        shape.put("name", validator.string().required());
+        shape.put("age", validator.number().positive()); // not required
+        schema.shape(shape);
+
+        Map<String, Object> human = new HashMap<>();
+        human.put("name", "Jane");
+        // age is missing but optional
+
+        assertThat(schema.isValid(human)).isTrue();
     }
 }

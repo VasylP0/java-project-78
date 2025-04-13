@@ -17,8 +17,9 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
         return this;
     }
 
-    public void shape(Map<String, BaseSchema<?>> schemas) {
-        this.shapeSchemas = schemas;
+    // ✅ Updated shape method with flexible generic parameter
+    public void shape(Map<String, ? extends BaseSchema<?>> schemas) {
+        this.shapeSchemas = new HashMap<>(schemas); // copy to prevent mutation
         addCheck(this::validateShape);
     }
 

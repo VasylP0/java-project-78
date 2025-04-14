@@ -1,5 +1,7 @@
 package hexlet.code.schemas;
 
+import hexlet.code.schemas.string.ValidationStrategy; // ✅ Correct import
+
 import java.util.HashMap;
 import java.util.Map;
 

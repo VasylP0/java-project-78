@@ -1,7 +1,6 @@
 package hexlet.code;
 
 import hexlet.code.schemas.string.StringSchema;
-import hexlet.code.Validator; // ✅ this was missing
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

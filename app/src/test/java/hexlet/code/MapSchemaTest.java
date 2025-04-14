@@ -12,12 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MapSchemaTest {
 
     private Validator validator;
-    private MapSchema schema;
+    private MapSchema<String, Object> schema;
 
     @BeforeEach
     void setUp() {
         validator = new Validator();
-        schema = validator.map();
+        schema = validator.<String, Object>map();
     }
 
     @Test

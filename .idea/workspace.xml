@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a79d3dd-926d-45df-8659-fc29f9cb710b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/map/MapSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/map/MapSchema.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/hexlet/code/ValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/hexlet/code/ValidatorTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="1a79d3dd-926d-45df-8659-fc29f9cb710b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -109,7 +105,7 @@
       <workItem from="1744570843667" duration="18898000" />
       <workItem from="1744605083181" duration="96000" />
       <workItem from="1744605274590" duration="127000" />
-      <workItem from="1744626999482" duration="1938000" />
+      <workItem from="1744626999482" duration="2547000" />
     </task>
     <servers />
   </component>

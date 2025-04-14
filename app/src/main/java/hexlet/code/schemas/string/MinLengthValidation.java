@@ -4,8 +4,8 @@ public final class MinLengthValidation implements ValidationStrategy<String> {
 
     private final int minLength;
 
-    public MinLengthValidation(int minLength) {
-        this.minLength = minLength;
+    public MinLengthValidation(int length) {
+        this.minLength = length;
     }
 
     @Override

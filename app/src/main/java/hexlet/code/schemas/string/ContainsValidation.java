@@ -4,8 +4,8 @@ public final class ContainsValidation implements ValidationStrategy<String> {
 
     private final String substring;
 
-    public ContainsValidation(String substring) {
-        this.substring = substring;
+    public ContainsValidation(String str) {
+        this.substring = str;
     }
 
     @Override

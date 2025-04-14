@@ -1,6 +1,7 @@
 plugins {
     java
-    id("org.sonarqube") version "4.4.1.3373"
+    id("checkstyle") // ✅ Added Checkstyle plugin
+    id("org.sonarqube") version("4.4.1.3373")
     jacoco
 }
 
@@ -55,6 +56,11 @@ tasks.jacocoTestReport {
         html.required.set(false)
         csv.required.set(false)
     }
+}
+
+checkstyle {
+    toolVersion = "10.12.1"
+    configFile = file("$rootDir/config/checkstyle/checkstyle.xml")
 }
 
 sonar {

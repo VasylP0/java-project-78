@@ -23,12 +23,12 @@ class MapSchemaShapeTest {
 
     @Test
     void testValidMap() {
-        Map<String, BaseSchema<?>> shape = new HashMap<>();
+        final Map<String, BaseSchema<?>> shape = new HashMap<>();
         shape.put("name", validator.string().required());
         shape.put("age", validator.number().required().positive());
         schema.shape(shape);
 
-        Map<String, Object> human = new HashMap<>();
+        final Map<String, Object> human = new HashMap<>();
         human.put("name", "John");
         human.put("age", 30);
 
@@ -37,12 +37,12 @@ class MapSchemaShapeTest {
 
     @Test
     void testInvalidMap() {
-        Map<String, BaseSchema<?>> shape = new HashMap<>();
+        final Map<String, BaseSchema<?>> shape = new HashMap<>();
         shape.put("name", validator.string().required());
         shape.put("age", validator.number().required().positive());
         schema.shape(shape);
 
-        Map<String, Object> human = new HashMap<>();
+        final Map<String, Object> human = new HashMap<>();
         human.put("name", "John");
         human.put("age", -5);
 
@@ -51,12 +51,12 @@ class MapSchemaShapeTest {
 
     @Test
     void testMissingRequiredField() {
-        Map<String, BaseSchema<?>> shape = new HashMap<>();
+        final Map<String, BaseSchema<?>> shape = new HashMap<>();
         shape.put("name", validator.string().required());
         shape.put("age", validator.number().required().positive());
         schema.shape(shape);
 
-        Map<String, Object> human = new HashMap<>();
+        final Map<String, Object> human = new HashMap<>();
         human.put("name", "John");
 
         assertThat(schema.isValid(human)).isFalse();
@@ -64,12 +64,12 @@ class MapSchemaShapeTest {
 
     @Test
     void testOptionalField() {
-        Map<String, BaseSchema<?>> shape = new HashMap<>();
+        final Map<String, BaseSchema<?>> shape = new HashMap<>();
         shape.put("name", validator.string().required());
         shape.put("age", validator.number().positive());
         schema.shape(shape);
 
-        Map<String, Object> human = new HashMap<>();
+        final Map<String, Object> human = new HashMap<>();
         human.put("name", "Jane");
 
         assertThat(schema.isValid(human)).isTrue();

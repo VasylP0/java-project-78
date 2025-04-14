@@ -27,10 +27,10 @@ public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
     @SuppressWarnings("unchecked")
     private boolean validateShape(Map<K, V> map) {
         for (Map.Entry<K, BaseSchema<?>> entry : shapeSchemas.entrySet()) {
-            K key = entry.getKey();
-            Object value = map.get(key);
+            final K key = entry.getKey(); // ✅ made final
+            final Object value = map.get(key); // ✅ made final
 
-            BaseSchema<Object> schema = (BaseSchema<Object>) entry.getValue();
+            final BaseSchema<Object> schema = (BaseSchema<Object>) entry.getValue(); // ✅ made final
 
             if (!schema.isValid(value)) {
                 return false;

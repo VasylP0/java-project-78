@@ -16,10 +16,10 @@ class ValidatorTest {
 
     @Test
     void testCreateSchemas() {
-        Validator validator = new Validator();
-        var stringSchema = validator.string();
-        var numberSchema = validator.number();
-        var mapSchema = validator.map();
+        final Validator validator = new Validator();
+        final StringSchema stringSchema = validator.string();
+        final NumberSchema numberSchema = validator.number();
+        final MapSchema<String, Object> mapSchema = validator.map();
 
         assertInstanceOf(StringSchema.class, stringSchema);
         assertInstanceOf(NumberSchema.class, numberSchema);
@@ -28,9 +28,9 @@ class ValidatorTest {
 
     @Test
     void testMapSchemaValidation() {
-        MapSchema schema = new Validator().map();
+        final MapSchema<String, Object> schema = new Validator().map();
 
-        Map<String, Object> actual1 = new HashMap<>();
+        final Map<String, Object> actual1 = new HashMap<>();
         actual1.put("key", "value");
 
         assertThat(schema.isValid(actual1)).isTrue();
@@ -47,26 +47,26 @@ class ValidatorTest {
 
     @Test
     void testMapShapeValidation() {
-        Validator validator = new Validator();
-        MapSchema schema = validator.map();
+        final Validator validator = new Validator();
+        final MapSchema<String, Object> schema = validator.map();
 
-        Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        final Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("firstName", validator.string().required().minLength(3));
         schemas.put("lastName", validator.string());
 
         schema.shape(schemas);
 
-        Map<String, Object> actual1 = new HashMap<>();
+        final Map<String, Object> actual1 = new HashMap<>();
         actual1.put("firstName", "Bob");
         actual1.put("lastName", null);
         assertThat(schema.isValid(actual1)).isTrue();
 
-        Map<String, Object> actual2 = new HashMap<>();
+        final Map<String, Object> actual2 = new HashMap<>();
         actual2.put("firstName", "Al"); // too short
         actual2.put("lastName", "Smith");
         assertThat(schema.isValid(actual2)).isFalse();
 
-        Map<String, Object> actual3 = new HashMap<>();
+        final Map<String, Object> actual3 = new HashMap<>();
         actual3.put("firstName", "John");
         actual3.put("lastName", "Doe");
         assertThat(schema.isValid(actual3)).isTrue();

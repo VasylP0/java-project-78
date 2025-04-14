@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
-    private final Map<K, BaseSchema<V>> shapeSchemas = new HashMap<>();
+    private final Map<K, BaseSchema<?>> shapeSchemas = new HashMap<>();
 
     public MapSchema<K, V> required() {
         strategies.put("required", value -> value != null);
@@ -18,17 +18,21 @@ public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
         return this;
     }
 
-    public MapSchema<K, V> shape(Map<K, BaseSchema<V>> schemas) {
+    public MapSchema<K, V> shape(Map<K, BaseSchema<?>> schemas) {
         shapeSchemas.putAll(schemas);
         strategies.put("shape", this::validateShape);
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     private boolean validateShape(Map<K, V> map) {
-        for (Map.Entry<K, BaseSchema<V>> entry : shapeSchemas.entrySet()) {
+        for (Map.Entry<K, BaseSchema<?>> entry : shapeSchemas.entrySet()) {
             K key = entry.getKey();
-            V value = map.get(key);
-            if (!entry.getValue().isValid(value)) {
+            Object value = map.get(key);
+
+            BaseSchema<Object> schema = (BaseSchema<Object>) entry.getValue();
+
+            if (!schema.isValid(value)) {
                 return false;
             }
         }

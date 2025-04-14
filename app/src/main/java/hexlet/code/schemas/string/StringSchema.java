@@ -1,7 +1,6 @@
 package hexlet.code.schemas.string;
 
 import hexlet.code.schemas.BaseSchema;
-import hexlet.code.schemas.ValidationStrategy;
 
 public final class StringSchema extends BaseSchema<String> {
 

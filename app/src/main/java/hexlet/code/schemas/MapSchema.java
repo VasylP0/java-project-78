@@ -1,40 +1,34 @@
 package hexlet.code.schemas;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
-public class MapSchema extends BaseSchema<Map<?, ?>> {
-    private Map<String, BaseSchema<?>> shapeSchemas = new HashMap<>();
+public final class MapSchema extends BaseSchema<Map<String, Object>> {
+    private final Map<String, BaseSchema<?>> shape = new HashMap<>();
 
     public MapSchema required() {
-        setRequired(true);
-        addCheck(value -> value != null);
+        strategies.put("required", value -> value != null);
         return this;
     }
 
     public MapSchema sizeof(int size) {
-        addCheck(value -> value != null && value.size() == size);
+        strategies.put("sizeof", value -> value != null && value.size() == size);
         return this;
     }
 
-    // ✅ Updated shape method with flexible generic parameter
-    public void shape(Map<String, ? extends BaseSchema<?>> schemas) {
-        this.shapeSchemas = new HashMap<>(schemas); // copy to prevent mutation
-        addCheck(this::validateShape);
+    public MapSchema shape(Map<String, BaseSchema<?>> schemaMap) {
+        shape.putAll(schemaMap);
+        strategies.put("shape", this::validateShape);
+        return this;
     }
 
-    private boolean validateShape(Map<?, ?> map) {
-        for (var entry : shapeSchemas.entrySet()) {
-            var key = entry.getKey();
-            var schema = entry.getValue();
+    private boolean validateShape(Map<String, Object> dataToValidate) {
+        for (Map.Entry<String, BaseSchema<?>> entry : shape.entrySet()) {
+            String key = entry.getKey();
+            Object value = dataToValidate.get(key);
 
-            Object value = map.get(key);
-
-            // If key is missing, treat value as null
-            if (!map.containsKey(key)) {
-                value = null;
-            }
-
+            @SuppressWarnings("unchecked")
+            BaseSchema<Object> schema = (BaseSchema<Object>) entry.getValue();
             if (!schema.isValid(value)) {
                 return false;
             }

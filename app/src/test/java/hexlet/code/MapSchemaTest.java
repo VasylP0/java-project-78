@@ -37,7 +37,7 @@ class MapSchemaTest {
     void testSizeofValidation() {
         schema.required().sizeof(2);
 
-        Map<String, String> data = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         data.put("key1", "value1");
 
         assertThat(schema.isValid(data)).isFalse();

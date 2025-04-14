@@ -1,43 +1,22 @@
 package hexlet.code.schemas;
 
-public class StringSchema extends BaseSchema<String> {
-    private Integer minLength = null;
-    private String mustContain = null;
+import hexlet.code.schemas.string.RequiredValidation;
+import hexlet.code.schemas.string.MinLengthValidation;
+import hexlet.code.schemas.string.ContainsValidation;
 
+public final class StringSchema extends BaseSchema<String> {
     public StringSchema required() {
-        setRequired(true);
-        addCheck(value -> value != null && !value.isEmpty());
+        strategies.put("required", new RequiredValidation());
         return this;
     }
 
-    public StringSchema minLength(int length) {
-        this.minLength = length;
-        addCheck(value -> value != null && value.length() >= minLength);
+    public StringSchema minLength(int minLength) {
+        strategies.put("minLength", new MinLengthValidation(minLength));
         return this;
     }
 
     public StringSchema contains(String substring) {
-        this.mustContain = substring;
-        addCheck(value -> value != null && value.contains(mustContain));
+        strategies.put("contains", new ContainsValidation(substring));
         return this;
-    }
-
-    @Override
-    protected boolean customPreValidation(String value) {
-        if (isRequired() && (value == null || value.isEmpty())) {
-            return false;
-        }
-
-        // Apply minLength if set
-        if (minLength != null && value != null && value.length() < minLength) {
-            return false;
-        }
-
-        // Apply contains if set
-        if (mustContain != null && value != null && !value.contains(mustContain)) {
-            return false;
-        }
-
-        return true;
     }
 }

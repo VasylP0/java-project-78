@@ -1,4 +1,4 @@
-package hexlet.code.schemas.string;
+package hexlet.code.schemas;
 
 @FunctionalInterface
 public interface ValidationStrategy<T> {

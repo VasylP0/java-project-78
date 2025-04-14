@@ -23,9 +23,19 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+// ✅ Ensure Gradle recognizes correct source directories
+sourceSets {
+    main {
+        java.srcDirs("src/main/java")
+    }
+    test {
+        java.srcDirs("src/test/java")
+    }
+}
+
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 

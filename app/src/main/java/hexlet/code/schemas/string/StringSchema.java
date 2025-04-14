@@ -1,10 +1,10 @@
-package hexlet.code.schemas;
+package hexlet.code.schemas.string;
 
-import hexlet.code.schemas.string.RequiredValidation;
-import hexlet.code.schemas.string.MinLengthValidation;
-import hexlet.code.schemas.string.ContainsValidation;
+import hexlet.code.schemas.BaseSchema;
+import hexlet.code.schemas.ValidationStrategy;
 
 public final class StringSchema extends BaseSchema<String> {
+
     public StringSchema required() {
         strategies.put("required", new RequiredValidation());
         return this;

@@ -1,6 +1,6 @@
-package hexlet.code.schemas;
+package hexlet.code;
 
-import hexlet.code.Validator;
+import hexlet.code.schemas.map.MapSchema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MapSchemaTest {
 
     private Validator validator;
-    private MapSchema<String, Object> schema;
+    private MapSchema schema;
 
     @BeforeEach
     void setUp() {
         validator = new Validator();
-        schema = validator.<String, Object>map();
+        schema = validator.map();
     }
 
     @Test

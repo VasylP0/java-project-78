@@ -1,4 +1,6 @@
-package hexlet.code.schemas;
+package hexlet.code.schemas.numeric;
+
+import hexlet.code.schemas.BaseSchema;
 
 public final class NumberSchema extends BaseSchema<Integer> {
 

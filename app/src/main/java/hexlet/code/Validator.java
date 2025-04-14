@@ -1,6 +1,9 @@
 package hexlet.code;
 
-import hexlet.code.schemas.*;
+import hexlet.code.schemas.BaseSchema;
+import hexlet.code.schemas.map.MapSchema;
+import hexlet.code.schemas.numeric.NumberSchema;
+import hexlet.code.schemas.string.StringSchema;
 
 public class Validator {
 
@@ -12,7 +15,7 @@ public class Validator {
         return new NumberSchema();
     }
 
-    public <K, V> MapSchema<K, V> map() {
-        return new MapSchema<>();
+    public MapSchema map() {
+        return new MapSchema();
     }
 }

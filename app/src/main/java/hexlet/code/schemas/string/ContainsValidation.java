@@ -1,5 +1,7 @@
 package hexlet.code.schemas.string;
 
+import hexlet.code.schemas.ValidationStrategy;
+
 public class ContainsValidation implements ValidationStrategy<String> {
     private final String substring;
 

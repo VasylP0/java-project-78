@@ -1,8 +1,6 @@
 package hexlet.code;
 
-import hexlet.code.schemas.StringSchema;
-import hexlet.code.schemas.NumberSchema;
-import hexlet.code.schemas.MapSchema;
+import hexlet.code.schemas.map.MapSchema;
 import hexlet.code.schemas.BaseSchema;
 import org.junit.jupiter.api.Test;
 
@@ -19,18 +17,18 @@ class ValidatorTest {
         Validator validator = new Validator();
         var stringSchema = validator.string();
         var numberSchema = validator.number();
-        var mapSchema = validator.<String, String>map();
+        var mapSchema = validator.map();
 
-        assertInstanceOf(StringSchema.class, stringSchema);
-        assertInstanceOf(NumberSchema.class, numberSchema);
+        assertInstanceOf(hexlet.code.schemas.string.StringSchema.class, stringSchema);
+        assertInstanceOf(hexlet.code.schemas.numeric.NumberSchema.class, numberSchema);
         assertInstanceOf(MapSchema.class, mapSchema);
     }
 
     @Test
     void testMapSchemaValidation() {
-        MapSchema<String, String> schema = new Validator().<String, String>map();
+        MapSchema schema = new Validator().map();
 
-        Map<String, String> actual1 = new HashMap<>();
+        Map<String, Object> actual1 = new HashMap<>();
         actual1.put("key", "value");
 
         assertThat(schema.isValid(actual1)).isTrue();
@@ -48,27 +46,27 @@ class ValidatorTest {
     @Test
     void testMapShapeValidation() {
         Validator validator = new Validator();
-        MapSchema<String, String> schema = validator.map();
+        MapSchema schema = validator.map();
 
-        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("firstName", validator.string().required().minLength(3));
         schemas.put("lastName", validator.string());
 
         schema.shape(schemas);
 
-        Map<String, String> actual1 = new HashMap<>();
+        Map<String, Object> actual1 = new HashMap<>();
         actual1.put("firstName", "Bob");
         actual1.put("lastName", null);
 
         assertThat(schema.isValid(actual1)).isTrue();
 
-        Map<String, String> actual2 = new HashMap<>();
-        actual2.put("firstName", "Al"); // Too short
+        Map<String, Object> actual2 = new HashMap<>();
+        actual2.put("firstName", "Al");
         actual2.put("lastName", "Smith");
 
         assertThat(schema.isValid(actual2)).isFalse();
 
-        Map<String, String> actual3 = new HashMap<>();
+        Map<String, Object> actual3 = new HashMap<>();
         actual3.put("firstName", "John");
         actual3.put("lastName", "Doe");
 

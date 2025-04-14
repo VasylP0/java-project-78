@@ -1,7 +1,7 @@
 package hexlet.code;
 
-import hexlet.code.schemas.MapSchema;
 import hexlet.code.schemas.BaseSchema;
+import hexlet.code.schemas.map.MapSchema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ class MapSchemaShapeTest {
 
         Map<String, Object> human = new HashMap<>();
         human.put("name", "John");
-        human.put("age", 30); // ✅ Correct type: Integer
+        human.put("age", 30);
 
         assertThat(schema.isValid(human)).isTrue();
     }
@@ -44,7 +44,7 @@ class MapSchemaShapeTest {
 
         Map<String, Object> human = new HashMap<>();
         human.put("name", "John");
-        human.put("age", -5); // ❌ Invalid: negative number
+        human.put("age", -5);
 
         assertThat(schema.isValid(human)).isFalse();
     }
@@ -58,7 +58,6 @@ class MapSchemaShapeTest {
 
         Map<String, Object> human = new HashMap<>();
         human.put("name", "John");
-        // age is missing
 
         assertThat(schema.isValid(human)).isFalse();
     }
@@ -67,12 +66,11 @@ class MapSchemaShapeTest {
     void testOptionalField() {
         Map<String, BaseSchema<?>> shape = new HashMap<>();
         shape.put("name", validator.string().required());
-        shape.put("age", validator.number().positive()); // not required
+        shape.put("age", validator.number().positive());
         schema.shape(shape);
 
         Map<String, Object> human = new HashMap<>();
         human.put("name", "Jane");
-        // age is missing but optional
 
         assertThat(schema.isValid(human)).isTrue();
     }

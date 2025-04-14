@@ -1,5 +1,7 @@
 package hexlet.code;
 
+import hexlet.code.schemas.string.StringSchema;
+import hexlet.code.schemas.numeric.NumberSchema;
 import hexlet.code.schemas.map.MapSchema;
 import hexlet.code.schemas.BaseSchema;
 import org.junit.jupiter.api.Test;
@@ -19,8 +21,8 @@ class ValidatorTest {
         var numberSchema = validator.number();
         var mapSchema = validator.map();
 
-        assertInstanceOf(hexlet.code.schemas.string.StringSchema.class, stringSchema);
-        assertInstanceOf(hexlet.code.schemas.numeric.NumberSchema.class, numberSchema);
+        assertInstanceOf(StringSchema.class, stringSchema);
+        assertInstanceOf(NumberSchema.class, numberSchema);
         assertInstanceOf(MapSchema.class, mapSchema);
     }
 
@@ -57,19 +59,16 @@ class ValidatorTest {
         Map<String, Object> actual1 = new HashMap<>();
         actual1.put("firstName", "Bob");
         actual1.put("lastName", null);
-
         assertThat(schema.isValid(actual1)).isTrue();
 
         Map<String, Object> actual2 = new HashMap<>();
-        actual2.put("firstName", "Al");
+        actual2.put("firstName", "Al"); // too short
         actual2.put("lastName", "Smith");
-
         assertThat(schema.isValid(actual2)).isFalse();
 
         Map<String, Object> actual3 = new HashMap<>();
         actual3.put("firstName", "John");
         actual3.put("lastName", "Doe");
-
         assertThat(schema.isValid(actual3)).isTrue();
     }
 }

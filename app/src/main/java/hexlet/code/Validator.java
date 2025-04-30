@@ -1,10 +1,10 @@
 package hexlet.code;
 
-import hexlet.code.schemas.map.MapSchema;
-import hexlet.code.schemas.string.StringSchema;
-import hexlet.code.schemas.numeric.NumberSchema;
+import hexlet.code.schemas.StringSchema;
+import hexlet.code.schemas.NumberSchema;
+import hexlet.code.schemas.MapSchema;
 
-public final class Validator {
+public class Validator {
 
     public StringSchema string() {
         return new StringSchema();
@@ -14,7 +14,7 @@ public final class Validator {
         return new NumberSchema();
     }
 
-    public MapSchema map() {
-        return new MapSchema();
+    public <K, V> MapSchema<K, V> map() {
+        return new MapSchema<>();
     }
 }

@@ -1,33 +1,46 @@
 package hexlet.code;
 
-import hexlet.code.schemas.string.StringSchema;
-import org.junit.jupiter.api.BeforeEach;
+import hexlet.code.schemas.StringSchema;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class StringSchemaTest {
 
-    private Validator validator;
-    private StringSchema schema;
+    @Test
+    void testRequiredPositiveCases() {
+        StringSchema schema = new StringSchema();
+        schema.required();
 
-    @BeforeEach
-    void setUp() {
-        validator = new Validator();
-        schema = validator.string();
+        assertThat(schema.isValid("hexlet")).isTrue();
+        assertThat(schema.isValid(" ")).isTrue(); // whitespace is considered non-empty
     }
 
     @Test
-    void testValidString() {
-        schema.required().minLength(5);
+    void testRequiredNegativeCases() {
+        StringSchema schema = new StringSchema();
+        schema.required();
 
-        assertThat(schema.isValid("Hello")).isTrue();
+        assertThat(schema.isValid("")).isFalse();
+        assertThat(schema.isValid(null)).isFalse();
     }
 
     @Test
-    void testInvalidString() {
-        schema.required().minLength(5);
+    void testMinLengthPositiveCases() {
+        StringSchema schema = new StringSchema();
+        schema.minLength(4);
 
-        assertThat(schema.isValid("Hi")).isFalse();
+        assertThat(schema.isValid("word")).isTrue();
+        assertThat(schema.isValid("longer")).isTrue();
+    }
+
+    @Test
+    void testMinLengthNegativeCases() {
+        StringSchema schema = new StringSchema();
+        schema.minLength(5);
+
+        assertThat(schema.isValid("cat")).isFalse();
+        assertThat(schema.isValid("")).isFalse();
+        assertThat(schema.isValid(null)).isTrue(); // null is valid unless required()
     }
 }

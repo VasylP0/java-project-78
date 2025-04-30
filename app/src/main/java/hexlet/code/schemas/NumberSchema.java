@@ -1,14 +1,6 @@
-package hexlet.code.schemas.numeric;
-
-import hexlet.code.schemas.BaseSchema;
-
-public final class NumberSchema extends BaseSchema<Integer> {
-
-    public NumberSchema required() {
-        strategies.put("required", value -> value != null);
-        return this;
-    }
-
+// NumberSchema.java
+package hexlet.code.schemas;
+public class NumberSchema extends BaseSchema<Integer> {
     public NumberSchema positive() {
         strategies.put("positive", value -> value == null || value > 0);
         return this;
@@ -16,6 +8,13 @@ public final class NumberSchema extends BaseSchema<Integer> {
 
     public NumberSchema range(int min, int max) {
         strategies.put("range", value -> value != null && value >= min && value <= max);
+        return this;
+    }
+
+    @Override
+    public NumberSchema required() {
+        super.required();
+        strategies.put("required", value -> value != null);
         return this;
     }
 }

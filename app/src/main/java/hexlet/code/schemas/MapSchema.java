@@ -1,14 +1,15 @@
-package hexlet.code.schemas.map;
-
-import hexlet.code.schemas.BaseSchema;
+package hexlet.code.schemas;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
+
     private final Map<K, BaseSchema<?>> shapeSchemas = new HashMap<>();
 
+    @Override
     public MapSchema<K, V> required() {
+        super.required();  // ✅ This enables base-level required check (null rejection)
         strategies.put("required", value -> value != null);
         return this;
     }
@@ -26,12 +27,14 @@ public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
 
     @SuppressWarnings("unchecked")
     private boolean validateShape(Map<K, V> map) {
+        if (map == null) {
+            return false;
+        }
+
         for (Map.Entry<K, BaseSchema<?>> entry : shapeSchemas.entrySet()) {
-            final K key = entry.getKey(); // ✅ made final
-            final Object value = map.get(key); // ✅ made final
-
-            final BaseSchema<Object> schema = (BaseSchema<Object>) entry.getValue(); // ✅ made final
-
+            K key = entry.getKey();
+            Object value = map.get(key);
+            BaseSchema<Object> schema = (BaseSchema<Object>) entry.getValue();
             if (!schema.isValid(value)) {
                 return false;
             }

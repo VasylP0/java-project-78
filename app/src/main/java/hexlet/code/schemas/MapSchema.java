@@ -22,12 +22,14 @@ public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
     public MapSchema<K, V> shape(Map<K, BaseSchema<?>> schemas) {
         shape = schemas;
         addStrategy("shape", map -> {
-            if (map == null) return false;
+            if (map == null) {
+                return false;
+            }
             for (Map.Entry<K, BaseSchema<?>> entry : shape.entrySet()) {
-                K key = entry.getKey();
-                Object value = map.get(key);
-                @SuppressWarnings("unchecked")
-                BaseSchema<Object> typedSchema = (BaseSchema<Object>) entry.getValue();
+                final K key = entry.getKey();
+                final Object value = map.get(key);
+                final BaseSchema<?> schema = entry.getValue();
+                final BaseSchema<Object> typedSchema = (BaseSchema<Object>) schema;
                 if (!typedSchema.isValid(value)) {
                     return false;
                 }

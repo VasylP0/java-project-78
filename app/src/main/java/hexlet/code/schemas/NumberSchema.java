@@ -1,20 +1,21 @@
-// NumberSchema.java
 package hexlet.code.schemas;
+
+import hexlet.code.strategies.ValidationStrategy;
+
 public class NumberSchema extends BaseSchema<Integer> {
+
+    public NumberSchema required() {
+        addStrategy("required", value -> value != null);
+        return this;
+    }
+
     public NumberSchema positive() {
-        strategies.put("positive", value -> value == null || value > 0);
+        addStrategy("positive", value -> value == null || value > 0);
         return this;
     }
 
     public NumberSchema range(int min, int max) {
-        strategies.put("range", value -> value != null && value >= min && value <= max);
-        return this;
-    }
-
-    @Override
-    public NumberSchema required() {
-        super.required();
-        strategies.put("required", value -> value != null);
+        addStrategy("range", value -> value != null && value >= min && value <= max);
         return this;
     }
 }

@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MapSchemaTest {
 
     private Validator validator;
-    private MapSchema schema;
+    private MapSchema<String, Object> schema;
 
     @BeforeEach
     void setUp() {
@@ -28,7 +28,6 @@ class MapSchemaTest {
     @Test
     void testRequiredValidation() {
         schema.required();
-
         assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid(new HashMap<>())).isTrue();
     }
@@ -39,24 +38,19 @@ class MapSchemaTest {
 
         final Map<String, Object> data = new HashMap<>();
         data.put("key1", "value1");
-
         assertThat(schema.isValid(data)).isFalse();
 
         data.put("key2", "value2");
-
         assertThat(schema.isValid(data)).isTrue();
 
         data.put("key3", "value3");
-
         assertThat(schema.isValid(data)).isFalse();
     }
 
     @Test
     void testEmptyMapWithSizeZero() {
         schema.required().sizeof(0);
-
         final Map<String, Object> data = new HashMap<>();
-
         assertThat(schema.isValid(data)).isTrue();
     }
 }

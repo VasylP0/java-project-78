@@ -1,25 +1,28 @@
-// BaseSchema.java (updated)
 package hexlet.code.schemas;
+
+import hexlet.code.strategies.ValidationStrategy;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public abstract class BaseSchema<T> {
-    protected Map<String, Predicate<T>> strategies = new HashMap<>();
-    private boolean isRequired = false;
 
-    public boolean isValid(T data) {
-        if (!isRequired && data == null) {
-            return true;
-        }
-        if (isRequired && data == null) {
-            return false;
-        }
-        return strategies.values().stream().allMatch(predicate -> predicate.test(data));
+    protected final Map<String, ValidationStrategy<T>> strategies = new HashMap<>();
+
+    public final boolean isValid(T dataToValidate) {
+        return validateData(dataToValidate, strategies);
     }
 
-    public BaseSchema<T> required() {
-        isRequired = true;
-        return this;
+    protected boolean validateData(T dataToValidate, Map<String, ValidationStrategy<T>> strategiesForData) {
+        for (ValidationStrategy<T> strategy : strategiesForData.values()) {
+            if (!strategy.validate(dataToValidate)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected void addStrategy(String name, ValidationStrategy<T> strategy) {
+        strategies.put(name, strategy);
     }
 }

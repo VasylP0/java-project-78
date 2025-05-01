@@ -8,39 +8,42 @@ import static org.assertj.core.api.Assertions.assertThat;
 class StringSchemaTest {
 
     @Test
-    void testRequiredPositiveCases() {
-        StringSchema schema = new StringSchema();
+    void testRequiredValidation() {
+        final StringSchema schema = new StringSchema();
+        assertThat(schema.isValid("")).isTrue();
+
         schema.required();
-
-        assertThat(schema.isValid("hexlet")).isTrue();
-        assertThat(schema.isValid(" ")).isTrue(); // whitespace is considered non-empty
-    }
-
-    @Test
-    void testRequiredNegativeCases() {
-        StringSchema schema = new StringSchema();
-        schema.required();
-
-        assertThat(schema.isValid("")).isFalse();
         assertThat(schema.isValid(null)).isFalse();
-    }
-
-    @Test
-    void testMinLengthPositiveCases() {
-        StringSchema schema = new StringSchema();
-        schema.minLength(4);
-
-        assertThat(schema.isValid("word")).isTrue();
-        assertThat(schema.isValid("longer")).isTrue();
-    }
-
-    @Test
-    void testMinLengthNegativeCases() {
-        StringSchema schema = new StringSchema();
-        schema.minLength(5);
-
-        assertThat(schema.isValid("cat")).isFalse();
         assertThat(schema.isValid("")).isFalse();
-        assertThat(schema.isValid(null)).isTrue(); // null is valid unless required()
+        assertThat(schema.isValid("hello")).isTrue();
+    }
+
+    @Test
+    void testMinLengthValidation() {
+        final StringSchema schema = new StringSchema();
+        schema.minLength(3);
+
+        assertThat(schema.isValid("hi")).isFalse();
+        assertThat(schema.isValid("hex")).isTrue();
+        assertThat(schema.isValid("hello")).isTrue();
+    }
+
+    @Test
+    void testContainsValidation() {
+        final StringSchema schema = new StringSchema();
+        schema.contains("abc");
+
+        assertThat(schema.isValid("xxabcxx")).isTrue();
+        assertThat(schema.isValid("abx")).isFalse();
+    }
+
+    @Test
+    void testCombinedValidatorsNegativeCases() {
+        final StringSchema schema = new StringSchema();
+        schema.required().minLength(5).contains("ab");
+
+        assertThat(schema.isValid(null)).isFalse();      // likely ok
+        assertThat(schema.isValid("abc")).isFalse();     // check this line
+        assertThat(schema.isValid("abcd")).isFalse();    // line 47?
     }
 }

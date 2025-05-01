@@ -1,20 +1,21 @@
-// StringSchema.java
 package hexlet.code.schemas;
+
+import hexlet.code.strategies.ValidationStrategy;
+
 public class StringSchema extends BaseSchema<String> {
-    public StringSchema contains(String substring) {
-        strategies.put("contains", value -> value != null && value.contains(substring));
-        return this;
-    }
 
-    public StringSchema minLength(int length) {
-        strategies.put("minLength", value -> value != null && value.length() >= length);
-        return this;
-    }
-
-    @Override
     public StringSchema required() {
-        super.required();
-        strategies.put("required", value -> value != null && !value.isEmpty());
+        addStrategy("required", value -> value != null && !value.isEmpty());
+        return this;
+    }
+
+    public StringSchema minLength(int minLength) {
+        addStrategy("minLength", value -> value != null && value.length() >= minLength);
+        return this;
+    }
+
+    public StringSchema contains(String substring) {
+        addStrategy("contains", value -> value != null && value.contains(substring));
         return this;
     }
 }

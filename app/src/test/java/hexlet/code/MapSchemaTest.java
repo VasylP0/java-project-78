@@ -26,31 +26,29 @@ class MapSchemaTest {
     }
 
     @Test
-    void testRequiredValidation() {
+    void testRequired() {
         schema.required();
         assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid(new HashMap<>())).isTrue();
     }
 
     @Test
-    void testSizeofValidation() {
+    void testSizeof() {
         schema.required().sizeof(2);
+        Map<String, Object> map = new HashMap<>();
+        map.put("k1", "v1");
+        map.put("k2", "v2");
 
-        final Map<String, Object> data = new HashMap<>();
-        data.put("key1", "value1");
-        assertThat(schema.isValid(data)).isFalse();
+        assertThat(schema.isValid(map)).isTrue();
 
-        data.put("key2", "value2");
-        assertThat(schema.isValid(data)).isTrue();
-
-        data.put("key3", "value3");
-        assertThat(schema.isValid(data)).isFalse();
+        map.put("k3", "v3");
+        assertThat(schema.isValid(map)).isFalse();
     }
 
     @Test
     void testEmptyMapWithSizeZero() {
         schema.required().sizeof(0);
-        final Map<String, Object> data = new HashMap<>();
-        assertThat(schema.isValid(data)).isTrue();
+        Map<String, Object> map = new HashMap<>();
+        assertThat(schema.isValid(map)).isTrue();
     }
 }

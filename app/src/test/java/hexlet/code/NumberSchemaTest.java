@@ -8,30 +8,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 class NumberSchemaTest {
 
     @Test
-    void testRequiredValidation() {
-        final NumberSchema schema = new NumberSchema();
-        schema.required();
-
+    void testRequired() {
+        final NumberSchema schema = new NumberSchema().required();
         assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid(5)).isTrue();
     }
 
     @Test
-    void testPositiveValidation() {
-        final NumberSchema schema = new NumberSchema();
-        schema.positive();
-
-        assertThat(schema.isValid(null)).isTrue(); // null is valid unless required() is called
-        assertThat(schema.isValid(-10)).isFalse();
+    void testPositive() {
+        final NumberSchema schema = new NumberSchema().positive();
+        assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid(-1)).isFalse();
         assertThat(schema.isValid(0)).isFalse();
         assertThat(schema.isValid(10)).isTrue();
     }
 
     @Test
-    void testRangeValidation() {
-        final NumberSchema schema = new NumberSchema();
-        schema.range(5, 10);
-
+    void testRange() {
+        final NumberSchema schema = new NumberSchema().range(5, 10);
         assertThat(schema.isValid(4)).isFalse();
         assertThat(schema.isValid(5)).isTrue();
         assertThat(schema.isValid(10)).isTrue();
@@ -39,10 +33,8 @@ class NumberSchemaTest {
     }
 
     @Test
-    void testCombinedValidators() {
-        final NumberSchema schema = new NumberSchema();
-        schema.required().positive().range(1, 100);
-
+    void testCombined() {
+        final NumberSchema schema = new NumberSchema().required().positive().range(1, 100);
         assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid(-1)).isFalse();
         assertThat(schema.isValid(0)).isFalse();

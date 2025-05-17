@@ -38,12 +38,13 @@ class StringSchemaTest {
     }
 
     @Test
-    void testCombinedValidatorsNegativeCases() {
+    void testCombinedValidators() {
         final StringSchema schema = new StringSchema();
         schema.required().minLength(5).contains("ab");
 
-        assertThat(schema.isValid(null)).isFalse();      // likely ok
-        assertThat(schema.isValid("abc")).isFalse();     // check this line
-        assertThat(schema.isValid("abcd")).isFalse();    // line 47?
+        assertThat(schema.isValid("abcdeab")).isTrue();
+        assertThat(schema.isValid(null)).isFalse();
+        assertThat(schema.isValid("abc")).isFalse();
+        assertThat(schema.isValid("hello world")).isFalse();
     }
 }

@@ -1,28 +1,24 @@
 package hexlet.code.schemas;
 
-import hexlet.code.strategies.ValidationStrategy;
-
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public abstract class BaseSchema<T> {
+    protected final Map<String, Predicate<T>> checks = new LinkedHashMap<>();
 
-    protected final Map<String, ValidationStrategy<T>> strategies = new HashMap<>();
-
-    public final boolean isValid(T dataToValidate) {
-        return validateData(dataToValidate, strategies);
-    }
-
-    protected boolean validateData(T dataToValidate, Map<String, ValidationStrategy<T>> strategiesForData) {
-        for (ValidationStrategy<T> strategy : strategiesForData.values()) {
-            if (!strategy.validate(dataToValidate)) {
+    public final boolean isValid(T value) {
+        for (Predicate<T> check : checks.values()) {
+            if (!check.test(value)) {
                 return false;
             }
         }
         return true;
     }
 
-    protected void addStrategy(String name, ValidationStrategy<T> strategy) {
-        strategies.put(name, strategy);
+    protected final void addCheck(String name, Predicate<T> check) {
+        checks.put(name, check);
     }
+
+    public abstract BaseSchema<T> required();
 }

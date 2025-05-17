@@ -1,21 +1,26 @@
+// File: src/main/java/hexlet/code/schemas/NumberSchema.java
 package hexlet.code.schemas;
 
-import hexlet.code.strategies.ValidationStrategy;
+import java.util.function.Predicate;
 
-public class NumberSchema extends BaseSchema<Integer> {
+public final class NumberSchema extends BaseSchema<Integer> {
 
     public NumberSchema required() {
-        addStrategy("required", value -> value != null);
+        addCheck("required", value -> value != null);
         return this;
     }
 
     public NumberSchema positive() {
-        addStrategy("positive", value -> value == null || value > 0);
+        Predicate<Integer> positiveCheck = value ->
+                value == null || value > 0;
+        addCheck("positive", positiveCheck);
         return this;
     }
 
     public NumberSchema range(int min, int max) {
-        addStrategy("range", value -> value != null && value >= min && value <= max);
+        Predicate<Integer> rangeCheck = value ->
+                value != null && value >= min && value <= max;
+        addCheck("range", rangeCheck);
         return this;
     }
 }

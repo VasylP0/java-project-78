@@ -1,41 +1,39 @@
 package hexlet.code.schemas;
 
-import hexlet.code.strategies.ValidationStrategy;
-
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Predicate;
 
-public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
-
-    private Map<K, BaseSchema<?>> shape = new HashMap<>();
+public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
 
     public MapSchema<K, V> required() {
-        addStrategy("required", value -> value != null);
+        addCheck("required", Objects::nonNull);
         return this;
     }
 
-    public MapSchema<K, V> sizeof(int expectedSize) {
-        addStrategy("sizeof", value -> value != null && value.size() == expectedSize);
+    public MapSchema<K, V> sizeof(int size) {
+        Predicate<Map<K, V>> sizeCheck = map ->
+                map == null || map.size() == size;
+        addCheck("sizeof", sizeCheck);
         return this;
     }
 
     public MapSchema<K, V> shape(Map<K, BaseSchema<?>> schemas) {
-        shape = schemas;
-        addStrategy("shape", map -> {
+        Predicate<Map<K, V>> shapeCheck = map -> {
             if (map == null) {
                 return false;
             }
-            for (Map.Entry<K, BaseSchema<?>> entry : shape.entrySet()) {
-                final K key = entry.getKey();
-                final Object value = map.get(key);
-                final BaseSchema<?> schema = entry.getValue();
-                final BaseSchema<Object> typedSchema = (BaseSchema<Object>) schema;
-                if (!typedSchema.isValid(value)) {
+            for (Map.Entry<K, BaseSchema<?>> entry : schemas.entrySet()) {
+                K key = entry.getKey();
+                BaseSchema<Object> validator = (BaseSchema<Object>) entry.getValue();
+                Object value = map.get(key);
+                if (!validator.isValid(value)) {
                     return false;
                 }
             }
             return true;
-        });
+        };
+        addCheck("shape", shapeCheck);
         return this;
     }
 }

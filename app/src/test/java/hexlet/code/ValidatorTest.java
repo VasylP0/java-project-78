@@ -18,21 +18,39 @@ public final class ValidatorTest {
         final Validator v = new Validator();
         final StringSchema schema = v.string();
 
-        assertThat(schema.isValid("")).isTrue();
-        assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid(""))
+                .as("Empty string should be valid when not required")
+                .isTrue();
+        assertThat(schema.isValid(null))
+                .as("Null should be valid when not required")
+                .isTrue();
 
         schema.required();
-        assertThat(schema.isValid("hexlet")).isTrue();
-        assertThat(schema.isValid(null)).isFalse();
-        assertThat(schema.isValid("")).isFalse();
+        assertThat(schema.isValid("hexlet"))
+                .as("Valid string")
+                .isTrue();
+        assertThat(schema.isValid(null))
+                .as("Null should not be valid when required")
+                .isFalse();
+        assertThat(schema.isValid(""))
+                .as("Empty string should not be valid when required")
+                .isFalse();
 
         schema.minLength(4);
-        assertThat(schema.isValid("hex")).isFalse();
-        assertThat(schema.isValid("hexlet")).isTrue();
+        assertThat(schema.isValid("hex"))
+                .as("Too short string")
+                .isFalse();
+        assertThat(schema.isValid("hexlet"))
+                .as("Valid string with sufficient length")
+                .isTrue();
 
         schema.contains("ex");
-        assertThat(schema.isValid("hexlet")).isTrue();
-        assertThat(schema.isValid("hello")).isFalse();
+        assertThat(schema.isValid("hexlet"))
+                .as("Contains substring")
+                .isTrue();
+        assertThat(schema.isValid("hello"))
+                .as("Does not contain substring")
+                .isFalse();
     }
 
     @Test
@@ -78,7 +96,7 @@ public final class ValidatorTest {
     }
 
     @Test
-    void testMapSchemaShape() {
+    void mapSchemaShapeValidation() {
         final Validator v = new Validator();
         final MapSchema<String, Object> schema = v.map();
 
@@ -100,8 +118,13 @@ public final class ValidatorTest {
         human3.put("name", "");
         human3.put("age", null);
 
+        final Map<String, Object> human4 = new HashMap<>();
+        human4.put("name", "Valya");
+        human4.put("age", -5);
+
         assertThat(schema.isValid(human1)).isTrue();
         assertThat(schema.isValid(human2)).isTrue();
         assertThat(schema.isValid(human3)).isFalse();
+        assertThat(schema.isValid(human4)).isFalse();
     }
 }

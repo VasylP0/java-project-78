@@ -15,8 +15,8 @@ public class ValidatorTest {
 
     @Test
     void testStringSchema() {
-        Validator v = new Validator();
-        StringSchema schema = v.string();
+        final Validator v = new Validator();
+        final StringSchema schema = v.string();
 
         assertThat(schema.isValid("")).isTrue();
         assertThat(schema.isValid(null)).isTrue();
@@ -37,8 +37,8 @@ public class ValidatorTest {
 
     @Test
     void testNumberSchema() {
-        Validator v = new Validator();
-        NumberSchema schema = v.number();
+        final Validator v = new Validator();
+        final NumberSchema schema = v.number();
 
         assertThat(schema.isValid(null)).isTrue();
         assertThat(schema.isValid(5)).isTrue();
@@ -60,8 +60,8 @@ public class ValidatorTest {
 
     @Test
     void testMapSchemaBasic() {
-        Validator v = new Validator();
-        MapSchema<String, Object> schema = v.map();
+        final Validator v = new Validator();
+        final MapSchema<String, Object> schema = v.map();
 
         assertThat(schema.isValid(null)).isTrue();
         assertThat(schema.isValid(new HashMap<>())).isTrue();
@@ -71,7 +71,7 @@ public class ValidatorTest {
         assertThat(schema.isValid(new HashMap<>())).isTrue();
 
         schema.sizeof(2);
-        Map<String, Object> map = new HashMap<>();
+        final Map<String, Object> map = new HashMap<>();
         map.put("key1", "value1");
         map.put("key2", "value2");
         assertThat(schema.isValid(map)).isTrue();
@@ -79,31 +79,31 @@ public class ValidatorTest {
 
     @Test
     void testMapSchemaShape() {
-        Validator v = new Validator();
-        MapSchema<String, Object> schema = v.map();
+        final Validator v = new Validator();
+        final MapSchema<String, Object> schema = v.map();
 
-        Map<String, BaseSchema<?>> shape = new HashMap<>();
+        final Map<String, BaseSchema<?>> shape = new HashMap<>();
         shape.put("name", v.string().required());
         shape.put("age", v.number().positive());
 
         schema.shape(shape);
 
-        Map<String, Object> human1 = new HashMap<>();
+        final Map<String, Object> human1 = new HashMap<>();
         human1.put("name", "Kolya");
         human1.put("age", 100);
         assertThat(schema.isValid(human1)).isTrue();
 
-        Map<String, Object> human2 = new HashMap<>();
+        final Map<String, Object> human2 = new HashMap<>();
         human2.put("name", "Maya");
         human2.put("age", null);
         assertThat(schema.isValid(human2)).isTrue();
 
-        Map<String, Object> human3 = new HashMap<>();
+        final Map<String, Object> human3 = new HashMap<>();
         human3.put("name", "");
         human3.put("age", null);
         assertThat(schema.isValid(human3)).isFalse();
 
-        Map<String, Object> human4 = new HashMap<>();
+        final Map<String, Object> human4 = new HashMap<>();
         human4.put("name", "Valya");
         human4.put("age", -5);
         assertThat(schema.isValid(human4)).isFalse();

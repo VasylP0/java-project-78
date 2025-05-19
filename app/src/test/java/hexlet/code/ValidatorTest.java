@@ -71,10 +71,10 @@ public class ValidatorTest {
         assertThat(schema.isValid(new HashMap<>())).isTrue();
 
         schema.sizeof(2);
-        final Map<String, Object> map = new HashMap<>();
-        map.put("key1", "value1");
-        map.put("key2", "value2");
-        assertThat(schema.isValid(map)).isTrue();
+        final Map<String, Object> actual1 = new HashMap<>();
+        actual1.put("key1", "value1");
+        actual1.put("key2", "value2");
+        assertThat(schema.isValid(actual1)).isTrue();
     }
 
     @Test
@@ -88,24 +88,24 @@ public class ValidatorTest {
 
         schema.shape(schemas);
 
-        final Map<String, Object> actual1 = new HashMap<>();
-        actual1.put("name", "Kolya");
-        actual1.put("age", 100);
-        assertThat(schema.isValid(actual1)).isTrue();
-
         final Map<String, Object> actual2 = new HashMap<>();
-        actual2.put("name", "Maya");
-        actual2.put("age", null);
+        actual2.put("name", "Kolya");
+        actual2.put("age", 100);
         assertThat(schema.isValid(actual2)).isTrue();
 
         final Map<String, Object> actual3 = new HashMap<>();
-        actual3.put("name", "");
+        actual3.put("name", "Maya");
         actual3.put("age", null);
-        assertThat(schema.isValid(actual3)).isFalse();
+        assertThat(schema.isValid(actual3)).isTrue();
 
         final Map<String, Object> actual4 = new HashMap<>();
-        actual4.put("name", "Valya");
-        actual4.put("age", -5);
+        actual4.put("name", "");
+        actual4.put("age", null);
         assertThat(schema.isValid(actual4)).isFalse();
+
+        final Map<String, Object> actual5 = new HashMap<>();
+        actual5.put("name", "Valya");
+        actual5.put("age", -5);
+        assertThat(schema.isValid(actual5)).isFalse();
     }
 }

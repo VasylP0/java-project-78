@@ -1,23 +1,25 @@
-// ==== FILE: NumberSchema.java ====
 package hexlet.code.schemas;
 
 import java.util.function.Predicate;
 
 public final class NumberSchema extends BaseSchema<Integer> {
 
+    @Override
     public NumberSchema required() {
-        addCheck("required", value -> value != null);
+        final Predicate<Integer> requiredCheck = value -> value != null;
+        addCheck("required", requiredCheck);
         return this;
     }
 
     public NumberSchema positive() {
-        final Predicate<Integer> positiveCheck = n -> n == null || n > 0;
+        final Predicate<Integer> positiveCheck = value -> value == null || value > 0;
         addCheck("positive", positiveCheck);
         return this;
     }
 
     public NumberSchema range(int min, int max) {
-        final Predicate<Integer> rangeCheck = n -> n != null && n >= min && n <= max;
+        final Predicate<Integer> rangeCheck = value ->
+                value != null && value >= min && value <= max;
         addCheck("range", rangeCheck);
         return this;
     }

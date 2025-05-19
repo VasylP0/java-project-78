@@ -2,21 +2,22 @@ package hexlet.code.schemas;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema<Map<String, Object>> {
-
     private final Map<String, BaseSchema<?>> shapeValidators = new HashMap<>();
 
     @Override
     public MapSchema required() {
-        Predicate<Map<String, Object>> requiredCheck = value -> value != null;
+        final Predicate<Map<String, Object>> requiredCheck = Objects::nonNull;
         addCheck("required", requiredCheck);
         return this;
     }
 
     public MapSchema sizeof(int size) {
-        Predicate<Map<String, Object>> sizeCheck = value -> value != null && value.size() == size;
+        final Predicate<Map<String, Object>> sizeCheck = map ->
+                map != null && map.size() == size;
         addCheck("sizeof", sizeCheck);
         return this;
     }
@@ -25,19 +26,32 @@ public final class MapSchema extends BaseSchema<Map<String, Object>> {
         shapeValidators.clear();
         shapeValidators.putAll(validators);
 
-        Predicate<Map<String, Object>> shapeCheck = map -> {
+        final Predicate<Map<String, Object>> shapeCheck = map -> {
             if (map == null) {
-                return true; // skip shape check if map is null
+                return true;
             }
-            return shapeValidators.entrySet().stream()
-                    .allMatch(entry -> {
-                        String key = entry.getKey();
-                        BaseSchema<Object> schema = (BaseSchema<Object>) entry.getValue(); // safe cast
-                        Object value = map.get(key);
-                        return schema.isValid(value);
-                    });
+
+            for (Map.Entry<String, BaseSchema<?>> entry : shapeValidators.entrySet()) {
+                final String key = entry.getKey();
+                final BaseSchema<?> schema = entry.getValue();
+                final Object fieldValue = map.get(key);
+
+                if (!isValidWithCast(schema, fieldValue)) {
+                    return false;
+                }
+            }
+            return true;
         };
 
         addCheck("shape", shapeCheck);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> boolean isValidWithCast(BaseSchema<T> schema, Object value) {
+        try {
+            return schema.isValid((T) value);
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 }

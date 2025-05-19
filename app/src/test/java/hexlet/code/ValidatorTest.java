@@ -18,30 +18,21 @@ public class ValidatorTest {
         final Validator v = new Validator();
         final StringSchema schema = v.string();
 
-        assertThat(schema.isValid(""))
-                .isTrue();
-        assertThat(schema.isValid(null))
-                .isTrue();
+        assertThat(schema.isValid("")).isTrue();
+        assertThat(schema.isValid(null)).isTrue();
 
         schema.required();
-        assertThat(schema.isValid("hexlet"))
-                .isTrue();
-        assertThat(schema.isValid(null))
-                .isFalse();
-        assertThat(schema.isValid(""))
-                .isFalse();
+        assertThat(schema.isValid("hexlet")).isTrue();
+        assertThat(schema.isValid(null)).isFalse();
+        assertThat(schema.isValid("")).isFalse();
 
         schema.minLength(4);
-        assertThat(schema.isValid("hex"))
-                .isFalse();
-        assertThat(schema.isValid("hexlet"))
-                .isTrue();
+        assertThat(schema.isValid("hex")).isFalse();
+        assertThat(schema.isValid("hexlet")).isTrue();
 
         schema.contains("ex");
-        assertThat(schema.isValid("hexlet"))
-                .isTrue();
-        assertThat(schema.isValid("hello"))
-                .isFalse();
+        assertThat(schema.isValid("hexlet")).isTrue();
+        assertThat(schema.isValid("hello")).isFalse();
     }
 
     @Test
@@ -69,8 +60,8 @@ public class ValidatorTest {
 
     @Test
     void testMapSchemaBasic() {
-        final Validator v = new Validator();
-        final MapSchema schema = v.map();
+        final Validator validator = new Validator();
+        final MapSchema schema = validator.map();
 
         assertThat(schema.isValid(null)).isTrue();
         assertThat(schema.isValid(new HashMap<>())).isTrue();
@@ -88,12 +79,12 @@ public class ValidatorTest {
 
     @Test
     void testMapSchemaShape() {
-        final Validator v = new Validator();
-        final MapSchema schema = v.map();
+        final Validator validator = new Validator();
+        final MapSchema schema = validator.map();
 
         final Map<String, BaseSchema<?>> shape = new HashMap<>();
-        shape.put("name", v.string().required());
-        shape.put("age", v.number().positive());
+        shape.put("name", validator.string().required());
+        shape.put("age", validator.number().positive());
 
         schema.shape(shape);
 

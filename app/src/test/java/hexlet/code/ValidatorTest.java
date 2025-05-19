@@ -1,6 +1,5 @@
-package hexlet.project;
+package hexlet.code;
 
-import hexlet.code.Validator;
 import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
 import hexlet.code.schemas.NumberSchema;
@@ -90,22 +89,25 @@ public class ValidatorTest {
         schema.shape(schemas);
 
         final Map<String, Object> actual1 = new HashMap<>();
-        actual1.put("name", "Kolya");
-        actual1.put("age", 100);
+        actual1.put("name", "");
+        actual1.put("age", 5);
+        assertThat(schema.isValid(actual1)).isFalse();
+
+        actual1.put("name", "Anna");
         assertThat(schema.isValid(actual1)).isTrue();
 
         final Map<String, Object> actual2 = new HashMap<>();
-        actual2.put("name", "Maya");
+        actual2.put("name", "Anna");
         actual2.put("age", null);
         assertThat(schema.isValid(actual2)).isTrue();
 
         final Map<String, Object> actual3 = new HashMap<>();
-        actual3.put("name", "");
-        actual3.put("age", null);
-        assertThat(schema.isValid(actual3)).isFalse();
+        actual3.put("name", "Anna");
+        actual3.put("age", 100);
+        assertThat(schema.isValid(actual3)).isTrue();
 
         final Map<String, Object> actual4 = new HashMap<>();
-        actual4.put("name", "Valya");
+        actual4.put("name", "Anna");
         actual4.put("age", -5);
         assertThat(schema.isValid(actual4)).isFalse();
     }

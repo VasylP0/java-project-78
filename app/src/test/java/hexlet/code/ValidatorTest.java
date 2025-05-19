@@ -82,11 +82,11 @@ public class ValidatorTest {
         final Validator validator = new Validator();
         final MapSchema schema = validator.map();
 
-        final Map<String, BaseSchema<?>> shape = new HashMap<>();
-        shape.put("name", validator.string().required());
-        shape.put("age", validator.number().positive());
+        final Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
 
-        schema.shape(shape);
+        schema.shape(schemas);
 
         final Map<String, Object> human1 = new HashMap<>();
         human1.put("name", "Kolya");

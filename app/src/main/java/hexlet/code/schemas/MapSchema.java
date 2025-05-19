@@ -1,43 +1,43 @@
 package hexlet.code.schemas;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Predicate;
 
-public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
-    private Map<K, BaseSchema<?>> shape = null;
+public final class MapSchema extends BaseSchema<Map<String, Object>> {
 
-    public MapSchema<K, V> required() {
-        addCheck("required", Objects::nonNull);
+    private final Map<String, BaseSchema<?>> shapeValidators = new HashMap<>();
+
+    @Override
+    public MapSchema required() {
+        Predicate<Map<String, Object>> requiredCheck = value -> value != null;
+        addCheck("required", requiredCheck);
         return this;
     }
 
-    public MapSchema<K, V> sizeof(int size) {
-        final Predicate<Map<K, V>> sizeCheck = map ->
-                map != null && map.size() == size;
+    public MapSchema sizeof(int size) {
+        Predicate<Map<String, Object>> sizeCheck = value -> value != null && value.size() == size;
         addCheck("sizeof", sizeCheck);
         return this;
     }
 
-    public MapSchema<K, V> shape(Map<K, BaseSchema<?>> schemas) {
-        this.shape = schemas;
+    public void shape(Map<String, BaseSchema<?>> validators) {
+        shapeValidators.clear();
+        shapeValidators.putAll(validators);
 
-        final Predicate<Map<K, V>> shapeCheck = map -> {
+        Predicate<Map<String, Object>> shapeCheck = map -> {
             if (map == null) {
-                return false;
+                return true; // skip shape check if map is null
             }
-            for (Map.Entry<K, BaseSchema<?>> entry : shape.entrySet()) {
-                final K key = entry.getKey();
-                final BaseSchema<Object> validator = (BaseSchema<Object>) entry.getValue();
-                final Object value = map.get(key);
-                if (!validator.isValid(value)) {
-                    return false;
-                }
-            }
-            return true;
+            return shapeValidators.entrySet().stream()
+                    .allMatch(entry -> {
+                        String key = entry.getKey();
+                        BaseSchema<Object> schema = (BaseSchema<Object>) entry.getValue(); // safe cast
+                        Object value = map.get(key);
+                        return schema.isValid(value);
+                    });
         };
 
         addCheck("shape", shapeCheck);
-        return this;
     }
 }

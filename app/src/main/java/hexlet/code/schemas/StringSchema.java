@@ -1,4 +1,3 @@
-// ==== FILE: StringSchema.java ====
 package hexlet.code.schemas;
 
 import java.util.function.Predicate;
@@ -6,18 +5,19 @@ import java.util.function.Predicate;
 public final class StringSchema extends BaseSchema<String> {
 
     public StringSchema required() {
-        addCheck("required", value -> value != null && !value.isEmpty());
+        Predicate<String> requiredCheck = value -> value != null && !value.isEmpty();
+        addCheck("required", requiredCheck);
         return this;
     }
 
-    public StringSchema minLength(int minLength) {
-        final Predicate<String> minLengthCheck = s -> s != null && s.length() >= minLength;
+    public StringSchema minLength(int length) {
+        Predicate<String> minLengthCheck = value -> value == null || value.length() >= length;
         addCheck("minLength", minLengthCheck);
         return this;
     }
 
     public StringSchema contains(String substring) {
-        final Predicate<String> containsCheck = s -> s != null && s.contains(substring);
+        Predicate<String> containsCheck = value -> value == null || value.contains(substring);
         addCheck("contains", containsCheck);
         return this;
     }

@@ -1,5 +1,6 @@
-package hexlet.code;
+package hexlet.project;
 
+import hexlet.code.Validator;
 import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
 import hexlet.code.schemas.NumberSchema;

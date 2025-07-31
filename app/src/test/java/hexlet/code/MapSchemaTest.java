@@ -2,8 +2,6 @@ package hexlet.code;
 
 import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
-import hexlet.code.schemas.NumberSchema;
-import hexlet.code.schemas.StringSchema;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -15,8 +13,8 @@ public final class MapSchemaTest {
 
     @Test
     void testRequired() {
-        Validator validator = new Validator();
-        MapSchema schema = validator.map();
+        final Validator validator = new Validator();
+        final MapSchema schema = validator.map();
 
         assertThat(schema.isValid(null)).isTrue();
 
@@ -24,7 +22,7 @@ public final class MapSchemaTest {
         assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid(new HashMap<>())).isTrue();
 
-        Map<String, Object> data = new HashMap<>();
+        final Map<String, Object> data = new HashMap<>();
         data.put("key1", "value1");
         data.put("key2", "value2");
         assertThat(schema.isValid(data)).isTrue();
@@ -32,11 +30,11 @@ public final class MapSchemaTest {
 
     @Test
     void testSizeof() {
-        Validator validator = new Validator();
-        MapSchema schema = validator.map();
+        final Validator validator = new Validator();
+        final MapSchema schema = validator.map();
         schema.required().sizeof(2);
 
-        Map<String, Object> data = new HashMap<>();
+        final Map<String, Object> data = new HashMap<>();
         data.put("key1", "value1");
         assertThat(schema.isValid(data)).isFalse();
 
@@ -49,16 +47,16 @@ public final class MapSchemaTest {
 
     @Test
     void testShape() {
-        Validator validator = new Validator();
-        MapSchema schema = validator.map();
+        final Validator validator = new Validator();
+        final MapSchema schema = validator.map();
 
-        Map<String, BaseSchema<?>> shape = new HashMap<>();
+        final Map<String, BaseSchema<?>> shape = new HashMap<>();
         shape.put("name", validator.string().required());
         shape.put("age", validator.number().positive());
 
         schema.shape(shape);
 
-        Map<String, Object> human = new HashMap<>();
+        final Map<String, Object> human = new HashMap<>();
         human.put("name", "Kolya");
         human.put("age", 100);
         assertThat(schema.isValid(human)).isTrue();

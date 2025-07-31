@@ -9,7 +9,7 @@ public class StringSchemaTest {
 
     @Test
     void testRequired() {
-        StringSchema schema = new StringSchema();
+        final StringSchema schema = new StringSchema();
         assertThat(schema.isValid("")).isTrue();
         assertThat(schema.isValid(null)).isTrue();
 
@@ -21,7 +21,7 @@ public class StringSchemaTest {
 
     @Test
     void testMinLength() {
-        StringSchema schema = new StringSchema();
+        final StringSchema schema = new StringSchema();
         schema.required().minLength(3);
 
         assertThat(schema.isValid("hi")).isFalse();
@@ -31,7 +31,7 @@ public class StringSchemaTest {
 
     @Test
     void testContains() {
-        StringSchema schema = new StringSchema();
+        final StringSchema schema = new StringSchema();
         schema.required().contains("wh");
 
         assertThat(schema.isValid("what does the fox say")).isTrue();
@@ -40,7 +40,7 @@ public class StringSchemaTest {
 
     @Test
     void testCombined() {
-        StringSchema schema = new StringSchema();
+        final StringSchema schema = new StringSchema();
         schema.required().minLength(5).contains("wor");
 
         assertThat(schema.isValid("hello")).isFalse();

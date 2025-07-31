@@ -20,9 +20,9 @@ public final class MapSchema extends BaseSchema<Map<String, Object>> {
             if (value == null) {
                 return true;
             }
-            for (Map.Entry<String, BaseSchema<?>> entry : shape.entrySet()) {
-                String key = entry.getKey();
-                BaseSchema<?> schema = entry.getValue();
+            for (final Map.Entry<String, BaseSchema<?>> entry : shape.entrySet()) {
+                final String key = entry.getKey();
+                final BaseSchema<?> schema = entry.getValue();
                 if (!schema.isValidRaw(value.get(key))) {
                     return false;
                 }

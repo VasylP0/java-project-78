@@ -5,46 +5,47 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class StringSchemaTest {
+public class StringSchemaTest {
 
     @Test
-    void testRequiredValidation() {
-        final StringSchema schema = new StringSchema();
+    void testRequired() {
+        StringSchema schema = new StringSchema();
         assertThat(schema.isValid("")).isTrue();
+        assertThat(schema.isValid(null)).isTrue();
 
         schema.required();
-        assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid("")).isFalse();
+        assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid("hello")).isTrue();
     }
 
     @Test
-    void testMinLengthValidation() {
-        final StringSchema schema = new StringSchema();
-        schema.minLength(3);
+    void testMinLength() {
+        StringSchema schema = new StringSchema();
+        schema.required().minLength(3);
 
         assertThat(schema.isValid("hi")).isFalse();
-        assertThat(schema.isValid("hex")).isTrue();
+        assertThat(schema.isValid("hey")).isTrue();
         assertThat(schema.isValid("hello")).isTrue();
     }
 
     @Test
-    void testContainsValidation() {
-        final StringSchema schema = new StringSchema();
-        schema.contains("abc");
+    void testContains() {
+        StringSchema schema = new StringSchema();
+        schema.required().contains("wh");
 
-        assertThat(schema.isValid("xxabcxx")).isTrue();
-        assertThat(schema.isValid("abx")).isFalse();
+        assertThat(schema.isValid("what does the fox say")).isTrue();
+        assertThat(schema.isValid("hello world")).isFalse();
     }
 
     @Test
-    void testCombinedValidators() {
-        final StringSchema schema = new StringSchema();
-        schema.required().minLength(5).contains("ab");
+    void testCombined() {
+        StringSchema schema = new StringSchema();
+        schema.required().minLength(5).contains("wor");
 
-        assertThat(schema.isValid("abcdeab")).isTrue();
-        assertThat(schema.isValid(null)).isFalse();
-        assertThat(schema.isValid("abc")).isFalse();
-        assertThat(schema.isValid("hello world")).isFalse();
+        assertThat(schema.isValid("hello")).isFalse();
+        assertThat(schema.isValid("world")).isTrue();
+        assertThat(schema.isValid("wow")).isFalse();
+        assertThat(schema.isValid("hello world")).isTrue();
     }
 }

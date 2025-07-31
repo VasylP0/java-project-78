@@ -1,20 +1,45 @@
-// File: src/main/java/hexlet/code/schemas/BaseSchema.java
 package hexlet.code.schemas;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 public abstract class BaseSchema<T> {
-    private final Map<String, Predicate<T>> checks = new LinkedHashMap<>();
+    private final List<Predicate<T>> checks = new ArrayList<>();
+    private boolean isRequired = false;
 
-    public final boolean isValid(T value) {
-        return checks.values().stream().allMatch(p -> p.test(value));
+    // ✅ Made non-final so it can be overridden in subclasses like NumberSchema
+    public boolean isValid(T value) {
+        if (!isRequired && (value == null || value.toString().isEmpty())) {
+            return true;
+        }
+
+        if (isRequired && (value == null || value.toString().isEmpty())) {
+            return false;
+        }
+
+        for (Predicate<T> check : checks) {
+            if (!check.test(value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    protected final void addCheck(String name, Predicate<T> check) {
-        checks.put(name, check);
+    // ✅ Leave this final to protect base behavior
+    protected final void addCheck(Predicate<T> check) {
+        checks.add(check);
     }
 
-    public abstract BaseSchema<T> required();
+    public BaseSchema<T> required() {
+        isRequired = true;
+        return this;
+    }
+
+    // ✅ Leave this final — used in MapSchema shape logic
+    @SuppressWarnings("unchecked")
+    public final boolean isValidRaw(Object value) {
+        return isValid((T) value);
+    }
 }

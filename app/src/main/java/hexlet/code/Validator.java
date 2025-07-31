@@ -1,3 +1,4 @@
+// File: src/main/java/hexlet/code/Validator.java
 package hexlet.code;
 
 import hexlet.code.schemas.StringSchema;

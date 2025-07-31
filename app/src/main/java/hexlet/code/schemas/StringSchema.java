@@ -1,27 +1,20 @@
 package hexlet.code.schemas;
 
-import java.util.function.Predicate;
-
 public final class StringSchema extends BaseSchema<String> {
 
-    @Override
     public StringSchema required() {
-        final Predicate<String> requiredCheck = value -> value != null && !value.isEmpty();
-        addCheck("required", requiredCheck);
+        super.required();
+        addCheck(value -> value != null && !value.isEmpty());
         return this;
     }
 
-    public StringSchema minLength(int length) {
-        final Predicate<String> minLengthCheck = value ->
-                value != null && value.length() >= length;
-        addCheck("minLength", minLengthCheck);
+    public StringSchema minLength(int minLength) {
+        addCheck(value -> value == null || value.length() >= minLength);
         return this;
     }
 
     public StringSchema contains(String substring) {
-        final Predicate<String> containsCheck = value ->
-                value != null && value.contains(substring);
-        addCheck("contains", containsCheck);
+        addCheck(value -> value == null || value.contains(substring));
         return this;
     }
 }

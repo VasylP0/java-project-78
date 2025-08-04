@@ -1,24 +1,27 @@
 package hexlet.code.schemas;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public abstract class BaseSchema<T> {
-    private final List<Predicate<T>> checks = new ArrayList<>();
-    private boolean isRequired = false;
+    protected Map<String, Predicate<T>> checks = new LinkedHashMap<>();
+    protected boolean required = false;
 
-    // ✅ Made non-final so it can be overridden in subclasses like NumberSchema
-    public boolean isValid(T value) {
-        if (!isRequired && (value == null || value.toString().isEmpty())) {
+    protected final void addCheck(String name, Predicate<T> validate) {
+        checks.put(name, validate);
+    }
+
+    public final boolean isValid(T value) {
+        if (!required && (value == null || value.toString().isEmpty())) {
             return true;
         }
 
-        if (isRequired && (value == null || value.toString().isEmpty())) {
+        if (required && (value == null || value.toString().isEmpty())) {
             return false;
         }
 
-        for (Predicate<T> check : checks) {
+        for (Predicate<T> check : checks.values()) {
             if (!check.test(value)) {
                 return false;
             }
@@ -27,17 +30,11 @@ public abstract class BaseSchema<T> {
         return true;
     }
 
-    // ✅ Leave this final to protect base behavior
-    protected final void addCheck(Predicate<T> check) {
-        checks.add(check);
-    }
-
     public BaseSchema<T> required() {
-        isRequired = true;
+        required = true;
         return this;
     }
 
-    // ✅ Leave this final — used in MapSchema shape logic
     @SuppressWarnings("unchecked")
     public final boolean isValidRaw(Object value) {
         return isValid((T) value);

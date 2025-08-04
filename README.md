@@ -21,9 +21,9 @@ It allows you to define reusable schemas for validating different types of data 
 ## 🚀 Usage Example
 
 ```java
-import hexlet.code.Validator;
+import hexlet.code.Validator.Validator;
 import hexlet.code.schemas.StringSchema;
-import hexlet.code.schemas.NumberSchema;
+import hexlet.code.schemas.NumberSchema.NumberSchema;
 import hexlet.code.schemas.MapSchema;
 
 var v = new Validator();

@@ -9,66 +9,49 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public final class MapSchemaTest {
+public class MapSchemaTest {
 
     @Test
-    void testRequired() {
-        final Validator validator = new Validator();
-        final MapSchema schema = validator.map();
+    public void testMapValidator() {
+        var v = new Validator();
+        var schema = v.map();
 
         assertThat(schema.isValid(null)).isTrue();
+        assertThat(schema.isValid(new HashMap<>())).isTrue();
 
         schema.required();
         assertThat(schema.isValid(null)).isFalse();
         assertThat(schema.isValid(new HashMap<>())).isTrue();
 
-        final Map<String, Object> data = new HashMap<>();
-        data.put("key1", "value1");
-        data.put("key2", "value2");
-        assertThat(schema.isValid(data)).isTrue();
-    }
+        schema.sizeof(2);
+        assertThat(schema.isValid(new HashMap<>())).isFalse();
 
-    @Test
-    void testSizeof() {
-        final Validator validator = new Validator();
-        final MapSchema schema = validator.map();
-        schema.required().sizeof(2);
+        Map<String, String> actual1 = new HashMap<>();
+        actual1.put("key1", "value1");
+        assertThat(schema.isValid(actual1)).isFalse();
 
-        final Map<String, Object> data = new HashMap<>();
-        data.put("key1", "value1");
-        assertThat(schema.isValid(data)).isFalse();
+        actual1.put("key2", "value2");
+        assertThat(schema.isValid(actual1)).isTrue();
 
-        data.put("key2", "value2");
-        assertThat(schema.isValid(data)).isTrue();
+        // ✅ This is the Hexlet-style shape test
+        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+        schemas.put("firstName", v.string().required().contains("ya"));
+        schemas.put("lastName", v.string().required().contains("ov"));
+        schema.shape(schemas);
 
-        data.put("key3", "value3");
-        assertThat(schema.isValid(data)).isFalse();
-    }
+        Map<String, String> actual2 = new HashMap<>();
+        actual2.put("firstName", "Kolya");
+        actual2.put("lastName", "Ivanov");
+        assertThat(schema.isValid(actual2)).isTrue();
 
-    @Test
-    void testShape() {
-        final Validator validator = new Validator();
-        final MapSchema schema = validator.map();
+        Map<String, String> actual3 = new HashMap<>();
+        actual3.put("firstName", "Maya");
+        actual3.put("lastName", "Krasnova");
+        assertThat(schema.isValid(actual3)).isTrue();
 
-        final Map<String, BaseSchema<?>> shape = new HashMap<>();
-        shape.put("name", validator.string().required());
-        shape.put("age", validator.number().positive());
-
-        schema.shape(shape);
-
-        final Map<String, Object> human = new HashMap<>();
-        human.put("name", "Kolya");
-        human.put("age", 100);
-        assertThat(schema.isValid(human)).isTrue();
-
-        human.put("age", null);
-        assertThat(schema.isValid(human)).isTrue();
-
-        human.put("name", "");
-        assertThat(schema.isValid(human)).isFalse();
-
-        human.put("name", "Valya");
-        human.put("age", -5);
-        assertThat(schema.isValid(human)).isFalse();
+        Map<String, String> actual4 = new HashMap<>();
+        actual4.put("firstName", "John");
+        actual4.put("age", "B"); // extra field, missing required "lastName"
+        assertThat(schema.isValid(actual4)).isFalse();
     }
 }

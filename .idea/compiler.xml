@@ -3,4 +3,14 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="21" />
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="app.app" options="-Xlint:all -Werror" />
+      <module name="app.app.main" options="-Xlint:all -Werror" />
+      <module name="app.app.test" options="-Xlint:all -Werror" />
+      <module name="java-project-78.app" options="-Xlint:all -Werror" />
+      <module name="java-project-78.app.main" options="-Xlint:all -Werror" />
+      <module name="java-project-78.app.test" options="-Xlint:all -Werror" />
+    </option>
+  </component>
 </project>

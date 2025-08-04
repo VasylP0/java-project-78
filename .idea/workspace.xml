@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a79d3dd-926d-45df-8659-fc29f9cb710b" name="Changes" comment="" />
+    <list default="true" id="1a79d3dd-926d-45df-8659-fc29f9cb710b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/BaseSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/BaseSchema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/MapSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/MapSchema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/NumberSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/NumberSchema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/StringSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/hexlet/code/schemas/StringSchema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/hexlet/code/MapSchemaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/hexlet/code/MapSchemaTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/checkstyle-10.12.1-all.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,22 +89,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.27812.49" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.27812.49" />
       </set>
     </attachedChunks>
   </component>
@@ -105,7 +111,24 @@
       <workItem from="1744570843667" duration="18898000" />
       <workItem from="1744605083181" duration="96000" />
       <workItem from="1744605274590" duration="127000" />
-      <workItem from="1744626999482" duration="2547000" />
+      <workItem from="1744626999482" duration="3461000" />
+      <workItem from="1744654162743" duration="1000" />
+      <workItem from="1745640763892" duration="12000" />
+      <workItem from="1745692561811" duration="609000" />
+      <workItem from="1745717972449" duration="1000" />
+      <workItem from="1745719504715" duration="7000" />
+      <workItem from="1745724195694" duration="2000" />
+      <workItem from="1745974300591" duration="7064000" />
+      <workItem from="1746070687298" duration="5092000" />
+      <workItem from="1747451902943" duration="5510000" />
+      <workItem from="1747526781306" duration="3939000" />
+      <workItem from="1747627139424" duration="8958000" />
+      <workItem from="1747665680547" duration="9791000" />
+      <workItem from="1747844232251" duration="5716000" />
+      <workItem from="1747871335239" duration="8810000" />
+      <workItem from="1753926472335" duration="5214000" />
+      <workItem from="1754013813920" duration="1897000" />
+      <workItem from="1754273361989" duration="2342000" />
     </task>
     <servers />
   </component>

@@ -1,21 +1,19 @@
-name: check
+name: hexlet-check
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   check:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-      - name: Run tests
-        run: |
-          cd app
-          ./gradlew clean test
+
+      - name: Run Hexlet Checks
+        uses: hexlet/project-action@release

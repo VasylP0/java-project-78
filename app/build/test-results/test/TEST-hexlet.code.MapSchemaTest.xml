@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="hexlet.code.MapSchemaTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-08-04T03:07:28" hostname="v4s1l-B550-AORUS-ELITE-AX-V2" time="0.085">
+<testsuite name="hexlet.code.MapSchemaTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-08-09T04:26:00" hostname="v4s1l-B550-AORUS-ELITE-AX-V2" time="0.083">
   <properties/>
-  <testcase name="testMapValidator()" classname="hexlet.code.MapSchemaTest" time="0.085"/>
+  <testcase name="testMapValidator()" classname="hexlet.code.MapSchemaTest" time="0.083"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

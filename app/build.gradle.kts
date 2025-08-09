@@ -1,12 +1,12 @@
 plugins {
-    application // 👈 Needed if you use `main()` entry point
+    application // Needed if you use `main()` entry point
     java
     id("checkstyle")
     id("org.sonarqube") version("4.4.1.3373")
     jacoco
 }
 
-// ✅ Added group and version to fix Hexlet CI
+// ✅ Group and version for Hexlet CI
 group = "hexlet.code"
 version = "1.0.0"
 
@@ -15,17 +15,18 @@ repositories {
 }
 
 dependencies {
-    // JUnit 5 (Jupiter)
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    // ✅ JUnit 5 (Jupiter) — API + Engine for runtime
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 
-    // AssertJ
+    // ✅ AssertJ for fluent assertions
     testImplementation("org.assertj:assertj-core:3.24.2")
 
-    // JUnit platform launcher (optional but useful)
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // (Optional) JUnit platform launcher for IDE integration
+    // testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-// ✅ Application main class (used if you run the app)
+// ✅ Application main class (if you run the app)
 application {
     mainClass.set("hexlet.code.App")
 }
@@ -40,7 +41,7 @@ sourceSets {
     }
 }
 
-// ✅ Java 21
+// ✅ Java 21 toolchain
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
@@ -50,11 +51,11 @@ java {
 // ✅ Enable JUnit 5
 tasks.test {
     useJUnitPlatform()
-    dependsOn(tasks.clean) // 👈 Clean before testing
+    dependsOn(tasks.clean) // Clean before testing
     finalizedBy(tasks.jacocoTestReport) // Run coverage report after tests
 }
 
-// ✅ Fail on warnings (good for quality)
+// ✅ Fail on warnings
 tasks.withType<JavaCompile> {
     options.compilerArgs.addAll(listOf("-Xlint:all", "-Werror"))
 }
@@ -64,7 +65,7 @@ tasks.check {
     dependsOn("checkstyleMain", "checkstyleTest")
 }
 
-// ✅ JaCoCo (test coverage reporting)
+// ✅ JaCoCo (test coverage)
 jacoco {
     toolVersion = "0.8.11"
 }
@@ -72,13 +73,13 @@ jacoco {
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
-        xml.required.set(true)  // 👈 Required for SonarCloud
+        xml.required.set(true)  // Required for SonarCloud
         html.required.set(false)
         csv.required.set(false)
     }
 }
 
-// ✅ Checkstyle config
+// ✅ Checkstyle configuration
 checkstyle {
     toolVersion = "10.12.1"
     configFile = file("$rootDir/config/checkstyle/checkstyle.xml")

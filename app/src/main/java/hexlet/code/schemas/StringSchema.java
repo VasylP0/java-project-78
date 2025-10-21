@@ -4,8 +4,7 @@ public final class StringSchema extends BaseSchema<String> {
 
     @Override
     public StringSchema required() {
-        super.required();
-        // For strings, required means non-null and non-empty
+        super.required(); // null invalid at base; add non-empty here
         addCheck("string_required_non_empty", v -> v != null && !v.isEmpty());
         return this;
     }
@@ -13,7 +12,7 @@ public final class StringSchema extends BaseSchema<String> {
     public StringSchema minLength(int n) {
         addCheck("min_length_" + n, v -> {
             if (v == null || v.isEmpty()) {
-                return !required;
+                return !required;  // empty ok unless required()
             }
             return v.length() >= n;
         });
@@ -23,8 +22,7 @@ public final class StringSchema extends BaseSchema<String> {
     public StringSchema contains(String part) {
         addCheck("contains_" + part, v -> {
             if (v == null || v.isEmpty()) {
-                // Empty allowed only if not required
-                return !required;
+                return !required;  // empty ok unless required()
             }
             return v.contains(part);
         });

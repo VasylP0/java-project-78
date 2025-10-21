@@ -5,20 +5,20 @@ public final class StringSchema extends BaseSchema<String> {
     @Override
     public StringSchema required() {
         super.required();
-        // "Required" means non-null and non-empty string
+        // required => non-null and non-empty
         addCheck("string_required", v -> v != null && !v.isEmpty());
         return this;
     }
 
     public StringSchema minLength(int n) {
-        // Only apply if value is not null
-        addCheck("min_length_" + n, v -> v == null || v.length() >= n);
+        // Empty is valid unless required() was set (that predicate will fail empties)
+        addCheck("min_length_" + n, v -> v == null || v.isEmpty() || v.length() >= n);
         return this;
     }
 
     public StringSchema contains(String part) {
-        // Only apply if value is not null
-        addCheck("contains_" + part, v -> v == null || v.contains(part));
+        // Empty is valid unless required() was set (that predicate will fail empties)
+        addCheck("contains_" + part, v -> v == null || v.isEmpty() || v.contains(part));
         return this;
     }
 }

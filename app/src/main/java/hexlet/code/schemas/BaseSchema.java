@@ -13,7 +13,17 @@ public class BaseSchema<T> {
         checks.put(name, predicate);
     }
 
-    // ✅ Added method — shared not-null requirement for all schemas
+    /**
+     * Marks this schema as required (non-null).
+     * <p>
+     * <strong>Subclass contract:</strong> If you override this method, you must call
+     * {@code super.required()} first to keep the non-null invariant. After that you may
+     * add additional constraints specific to the subtype via {@link #addCheck(String, java.util.function.Predicate)}.
+     * Implementations should return {@code this} to preserve the fluent API.
+     * </p>
+     *
+     * @return this schema with the required (non-null) constraint applied
+     */
     public BaseSchema<T> required() {
         addCheck(isRequired, v -> v != null);
         return this;

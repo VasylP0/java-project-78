@@ -4,28 +4,18 @@ public final class StringSchema extends BaseSchema<String> {
 
     @Override
     public StringSchema required() {
-        super.required(); // null invalid at base; add non-empty here
+        super.required();
         addCheck("string_required_non_empty", v -> v != null && !v.isEmpty());
         return this;
     }
 
-    public StringSchema minLength(int n) {
-        addCheck("min_length_" + n, v -> {
-            if (v == null || v.isEmpty()) {
-                return !required;  // empty ok unless required()
-            }
-            return v.length() >= n;
-        });
+    public StringSchema minLength(int number) {
+        addCheck("minLength", v -> v == null || v.isEmpty() || v.length() >= number);
         return this;
     }
 
-    public StringSchema contains(String part) {
-        addCheck("contains_" + part, v -> {
-            if (v == null || v.isEmpty()) {
-                return !required;  // empty ok unless required()
-            }
-            return v.contains(part);
-        });
+    public StringSchema contains(String str) {
+        addCheck("contains", v -> v == null || v.isEmpty() || v.contains(str));
         return this;
     }
 }

@@ -1,5 +1,20 @@
-.idea/
+# Gradle build output
 .gradle/
 build/
-out/
-*.iml
+app/.gradle/
+app/build/
+
+# IDE configs
+.idea/
+app/.idea/
+
+# OS / temporary files
+*.log
+*.tmp
+*.swp
+*~
+
+# Mac and Linux junk
+.DS_Store
+Thumbs.db
+

@@ -1,5 +1,5 @@
 plugins {
-    application // Needed if you use `main()` entry point
+    // ❌ application // Removed — library, not executable
     java
     checkstyle
     jacoco
@@ -25,10 +25,7 @@ dependencies {
     // testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-// ✅ Application main class (if you run the app)
-application {
-    mainClass.set("hexlet.code.App")
-}
+// ❌ Removed application block
 
 // ✅ Java 21 toolchain
 java {
